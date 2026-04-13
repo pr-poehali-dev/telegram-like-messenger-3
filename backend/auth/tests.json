@@ -1,0 +1,31 @@
+{
+  "tests": [
+    {
+      "name": "Login existing user",
+      "method": "POST",
+      "path": "/",
+      "body": {"action": "login", "email": "test_neochat_42@example.com", "password": "secret123"},
+      "expectedStatus": 200,
+      "expectedBody": {"token": "string"},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Login wrong password returns error",
+      "method": "POST",
+      "path": "/",
+      "body": {"action": "login", "email": "test_neochat_42@example.com", "password": "wrongpass"},
+      "expectedStatus": 200,
+      "expectedBody": {"error": "string"},
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Missing fields returns error",
+      "method": "POST",
+      "path": "/",
+      "body": {"action": "login", "email": "", "password": ""},
+      "expectedStatus": 200,
+      "expectedBody": {"error": "string"},
+      "bodyMatcher": "partial"
+    }
+  ]
+}

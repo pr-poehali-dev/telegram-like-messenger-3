@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
+import { useAuth } from "@/contexts/AuthContext";
 
 type Tab = "chats" | "contacts" | "notifications" | "settings" | "profile";
 
@@ -123,6 +124,7 @@ function Avatar({ initials, size = "md", online = false }: { initials: string; s
 }
 
 export default function Index() {
+  const { user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState<Tab>("chats");
   const [activeChat, setActiveChat] = useState<Chat | null>(null);
   const [inputText, setInputText] = useState("");
@@ -499,8 +501,8 @@ export default function Index() {
                     </button>
                   </div>
                   <div className="flex-1">
-                    <h3 className="text-white font-bold text-2xl">Ваше Имя</h3>
-                    <p className="text-white/50 text-sm mt-1">@username</p>
+                    <h3 className="text-white font-bold text-2xl">{user?.name || "Ваше Имя"}</h3>
+                    <p className="text-white/50 text-sm mt-1">{user?.email || "@username"}</p>
                     <p className="text-white/40 text-sm mt-3 leading-relaxed">Привет! Я использую NeoChat 🚀</p>
                     <div className="flex gap-4 mt-4">
                       <div className="text-center">
@@ -538,7 +540,12 @@ export default function Index() {
                 ))}
               </div>
 
-              <button className="mt-6 w-full py-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/20 transition-colors animate-fade-up" style={{ animationDelay: "0.25s", opacity: 0 }}>
+              <button
+                onClick={() => logout()}
+                className="mt-6 w-full py-3 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400 text-sm font-medium hover:bg-red-500/20 transition-colors animate-fade-up flex items-center justify-center gap-2"
+                style={{ animationDelay: "0.25s", opacity: 0 }}
+              >
+                <Icon name="LogOut" size={16} />
                 Выйти из аккаунта
               </button>
             </div>
