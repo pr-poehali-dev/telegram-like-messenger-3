@@ -134,6 +134,57 @@ def handler(event: dict, context) -> dict:
             "body": json.dumps({"user": {"id": user_id, "name": name, "email": email}}),
         }
 
+    # update_profile
+    if method == "POST" and action == "update_profile":
+        token = (event.get("headers") or {}).get("X-Session-Token", "")
+        if not token:
+            conn.close()
+            return {"statusCode": 200, "headers": cors, "body": json.dumps({"error": "Не авторизован"})}
+
+        now = datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
+        cur.execute(
+            f"SELECT u.id FROM {SCHEMA}.sessions s "
+            f"JOIN {SCHEMA}.users u ON u.id = s.user_id "
+            f"WHERE s.token = '{token}' AND s.expires_at > '{now}'"
+        )
+        row = cur.fetchone()
+        if not row:
+            conn.close()
+            return {"statusCode": 200, "headers": cors, "body": json.dumps({"error": "Сессия истекла"})}
+
+        user_id = row[0]
+        updates = []
+
+        new_name = body.get("name", "").strip()
+        if new_name:
+            updates.append(f"name = '{new_name}'")
+
+        new_password = body.get("password", "")
+        new_password_confirm = body.get("password_confirm", "")
+        if new_password:
+            if len(new_password) < 6:
+                conn.close()
+                return {"statusCode": 200, "headers": cors, "body": json.dumps({"error": "Пароль минимум 6 символов"})}
+            if new_password != new_password_confirm:
+                conn.close()
+                return {"statusCode": 200, "headers": cors, "body": json.dumps({"error": "Пароли не совпадают"})}
+            updates.append(f"password_hash = '{hash_password(new_password)}'")
+
+        if not updates:
+            conn.close()
+            return {"statusCode": 200, "headers": cors, "body": json.dumps({"error": "Нечего обновлять"})}
+
+        cur.execute(f"UPDATE {SCHEMA}.users SET {', '.join(updates)} WHERE id = {user_id} RETURNING id, name, email")
+        updated = cur.fetchone()
+        conn.commit()
+        conn.close()
+
+        return {
+            "statusCode": 200,
+            "headers": cors,
+            "body": json.dumps({"user": {"id": updated[0], "name": updated[1], "email": updated[2]}}),
+        }
+
     # logout
     if method == "POST" and action == "logout":
         token = (event.get("headers") or {}).get("X-Session-Token", "")
