@@ -32,71 +32,11 @@ interface Contact {
   phone: string;
 }
 
-const CHATS: Chat[] = [
-  {
-    id: 1, name: "Алиса Морозова", avatar: "АМ", lastMsg: "Окей, увидимся завтра!", time: "14:32",
-    unread: 3, online: true,
-    messages: [
-      { id: 1, text: "Привет! Как дела?", out: false, time: "14:20", read: true },
-      { id: 2, text: "Всё отлично, спасибо! А у тебя?", out: true, time: "14:21", read: true },
-      { id: 3, text: "Тоже хорошо. Встречаемся завтра?", out: false, time: "14:25", read: true },
-      { id: 4, text: "Да, конечно! В 15:00 у кофейни", out: true, time: "14:30", read: true },
-      { id: 5, text: "Окей, увидимся завтра!", out: false, time: "14:32", read: false },
-    ]
-  },
-  {
-    id: 2, name: "Команда Проекта", avatar: "КП", lastMsg: "Дедлайн перенесли на пятницу", time: "12:10",
-    unread: 1, online: false,
-    messages: [
-      { id: 1, text: "Всем привет! Созвон в 11:00", out: false, time: "10:00", read: true },
-      { id: 2, text: "Буду!", out: true, time: "10:05", read: true },
-      { id: 3, text: "Дедлайн перенесли на пятницу", out: false, time: "12:10", read: false },
-    ]
-  },
-  {
-    id: 3, name: "Дима Волков", avatar: "ДВ", lastMsg: "Скинь файл плиз", time: "Вчера",
-    unread: 0, online: true,
-    messages: [
-      { id: 1, text: "Привет, ты занят?", out: false, time: "Вчера 18:00", read: true },
-      { id: 2, text: "Нет, что нужно?", out: true, time: "Вчера 18:05", read: true },
-      { id: 3, text: "Скинь файл плиз", out: false, time: "Вчера 18:10", read: true },
-    ]
-  },
-  {
-    id: 4, name: "Маша Кузнецова", avatar: "МК", lastMsg: "Спасибо большое! 🙏", time: "Пн",
-    unread: 0, online: false,
-    messages: [
-      { id: 1, text: "Ты можешь помочь с презентацией?", out: false, time: "Пн 15:00", read: true },
-      { id: 2, text: "Конечно, пришли материалы", out: true, time: "Пн 15:20", read: true },
-      { id: 3, text: "Спасибо большое! 🙏", out: false, time: "Пн 16:00", read: true },
-    ]
-  },
-  {
-    id: 5, name: "Антон Смирнов", avatar: "АС", lastMsg: "Классная идея!", time: "Вс",
-    unread: 0, online: false,
-    messages: [
-      { id: 1, text: "Что думаешь про стартап?", out: true, time: "Вс 20:00", read: true },
-      { id: 2, text: "Классная идея!", out: false, time: "Вс 20:30", read: true },
-    ]
-  },
-];
+const CHATS: Chat[] = [];
 
-const CONTACTS: Contact[] = [
-  { id: 1, name: "Алиса Морозова", avatar: "АМ", status: "В сети", online: true, phone: "+7 999 123 45 67" },
-  { id: 2, name: "Антон Смирнов", avatar: "АС", status: "Был час назад", online: false, phone: "+7 977 234 56 78" },
-  { id: 3, name: "Дима Волков", avatar: "ДВ", status: "В сети", online: true, phone: "+7 912 345 67 89" },
-  { id: 4, name: "Маша Кузнецова", avatar: "МК", status: "Не беспокоить", online: false, phone: "+7 965 456 78 90" },
-  { id: 5, name: "Никита Орлов", avatar: "НО", status: "Был вчера", online: false, phone: "+7 904 567 89 01" },
-  { id: 6, name: "Оля Петрова", avatar: "ОП", status: "В сети", online: true, phone: "+7 921 678 90 12" },
-];
+const CONTACTS: Contact[] = [];
 
-const NOTIFICATIONS = [
-  { id: 1, type: "msg", text: "Алиса Морозова написала вам сообщение", time: "2 мин назад", read: false, icon: "MessageCircle" },
-  { id: 2, type: "call", text: "Пропущенный звонок от Димы Волкова", time: "35 мин назад", read: false, icon: "PhoneMissed" },
-  { id: 3, type: "group", text: "Команда Проекта: Дедлайн перенесли", time: "1 ч назад", read: true, icon: "Users" },
-  { id: 4, type: "contact", text: "Оля Петрова добавила вас в контакты", time: "3 ч назад", read: true, icon: "UserPlus" },
-  { id: 5, type: "msg", text: "Маша Кузнецова отправила файл", time: "Вчера", read: true, icon: "Paperclip" },
-];
+const NOTIFICATIONS: { id: number; type: string; text: string; time: string; read: boolean; icon: string }[] = [];
 
 const AVATAR_COLORS: Record<string, string> = {
   "АМ": "from-purple-500 to-pink-500",
@@ -168,7 +108,7 @@ export default function Index() {
               <Icon name="Zap" size={18} className="text-white" />
             </div>
             <div>
-              <h1 className="text-white font-bold text-lg leading-none">NeoChat</h1>
+              <h1 className="text-white font-bold text-lg leading-none">SN</h1>
               <p className="text-white/40 text-xs mt-0.5">Мессенджер</p>
             </div>
           </div>
@@ -374,34 +314,46 @@ export default function Index() {
               <input placeholder="Поиск контактов..." className="w-full pl-11 pr-4 py-3 text-sm text-white placeholder-white/30 rounded-xl msg-input outline-none" />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-              {CONTACTS.map((c, i) => (
-                <div
-                  key={c.id}
-                  className="glass rounded-2xl p-4 hover:bg-white/5 transition-all duration-200 cursor-pointer group animate-fade-up"
-                  style={{ animationDelay: `${i * 0.07}s`, opacity: 0 }}
-                >
-                  <div className="flex items-start gap-3">
-                    <Avatar initials={c.avatar} size="lg" online={c.online} />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-white font-semibold">{c.name}</p>
-                      <p className={`text-xs mt-0.5 ${c.online ? "text-green-400" : "text-white/40"}`}>{c.status}</p>
-                      <p className="text-white/30 text-xs mt-1">{c.phone}</p>
+            {CONTACTS.length === 0 ? (
+              <div className="flex flex-col items-center justify-center flex-1 gap-4 animate-fade-in py-20">
+                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-white/10 flex items-center justify-center animate-float">
+                  <Icon name="Users" size={36} className="text-purple-400" />
+                </div>
+                <div className="text-center">
+                  <h3 className="text-white font-semibold text-lg">Нет контактов</h3>
+                  <p className="text-white/40 text-sm mt-1">Добавьте первый контакт</p>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                {CONTACTS.map((c, i) => (
+                  <div
+                    key={c.id}
+                    className="glass rounded-2xl p-4 hover:bg-white/5 transition-all duration-200 cursor-pointer group animate-fade-up"
+                    style={{ animationDelay: `${i * 0.07}s`, opacity: 0 }}
+                  >
+                    <div className="flex items-start gap-3">
+                      <Avatar initials={c.avatar} size="lg" online={c.online} />
+                      <div className="flex-1 min-w-0">
+                        <p className="text-white font-semibold">{c.name}</p>
+                        <p className={`text-xs mt-0.5 ${c.online ? "text-green-400" : "text-white/40"}`}>{c.status}</p>
+                        <p className="text-white/30 text-xs mt-1">{c.phone}</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-2 mt-4">
+                      <button className="flex-1 py-2 rounded-xl bg-white/5 hover:bg-purple-500/20 text-white/60 hover:text-purple-400 text-xs font-medium transition-all flex items-center justify-center gap-1.5">
+                        <Icon name="MessageCircle" size={13} />
+                        Написать
+                      </button>
+                      <button className="flex-1 py-2 rounded-xl bg-white/5 hover:bg-blue-500/20 text-white/60 hover:text-blue-400 text-xs font-medium transition-all flex items-center justify-center gap-1.5">
+                        <Icon name="Phone" size={13} />
+                        Позвонить
+                      </button>
                     </div>
                   </div>
-                  <div className="flex gap-2 mt-4">
-                    <button className="flex-1 py-2 rounded-xl bg-white/5 hover:bg-purple-500/20 text-white/60 hover:text-purple-400 text-xs font-medium transition-all flex items-center justify-center gap-1.5">
-                      <Icon name="MessageCircle" size={13} />
-                      Написать
-                    </button>
-                    <button className="flex-1 py-2 rounded-xl bg-white/5 hover:bg-blue-500/20 text-white/60 hover:text-blue-400 text-xs font-medium transition-all flex items-center justify-center gap-1.5">
-                      <Icon name="Phone" size={13} />
-                      Позвонить
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
@@ -417,28 +369,40 @@ export default function Index() {
               </button>
             </div>
 
-            <div className="space-y-3 max-w-2xl">
-              {NOTIFICATIONS.map((n, i) => (
-                <div
-                  key={n.id}
-                  className={`glass rounded-2xl p-4 flex items-start gap-4 transition-all duration-200 animate-fade-up ${!n.read ? "border-l-2 border-purple-500" : ""}`}
-                  style={{ animationDelay: `${i * 0.07}s`, opacity: 0 }}
-                >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    !n.read
-                      ? "bg-gradient-to-br from-purple-500/30 to-blue-500/30"
-                      : "bg-white/5"
-                  }`}>
-                    <Icon name={n.icon} size={18} className={!n.read ? "text-purple-400" : "text-white/40"} />
-                  </div>
-                  <div className="flex-1">
-                    <p className={`text-sm ${!n.read ? "text-white font-medium" : "text-white/60"}`}>{n.text}</p>
-                    <p className="text-white/30 text-xs mt-1">{n.time}</p>
-                  </div>
-                  {!n.read && <div className="w-2 h-2 rounded-full bg-purple-500 mt-2 flex-shrink-0 animate-glow" />}
+            {NOTIFICATIONS.length === 0 ? (
+              <div className="flex flex-col items-center justify-center flex-1 gap-4 animate-fade-in py-20">
+                <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-purple-500/20 to-blue-500/20 border border-white/10 flex items-center justify-center animate-float">
+                  <Icon name="Bell" size={36} className="text-purple-400" />
                 </div>
-              ))}
-            </div>
+                <div className="text-center">
+                  <h3 className="text-white font-semibold text-lg">Нет уведомлений</h3>
+                  <p className="text-white/40 text-sm mt-1">Здесь появятся новые события</p>
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-3 max-w-2xl">
+                {NOTIFICATIONS.map((n, i) => (
+                  <div
+                    key={n.id}
+                    className={`glass rounded-2xl p-4 flex items-start gap-4 transition-all duration-200 animate-fade-up ${!n.read ? "border-l-2 border-purple-500" : ""}`}
+                    style={{ animationDelay: `${i * 0.07}s`, opacity: 0 }}
+                  >
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                      !n.read
+                        ? "bg-gradient-to-br from-purple-500/30 to-blue-500/30"
+                        : "bg-white/5"
+                    }`}>
+                      <Icon name={n.icon} size={18} className={!n.read ? "text-purple-400" : "text-white/40"} />
+                    </div>
+                    <div className="flex-1">
+                      <p className={`text-sm ${!n.read ? "text-white font-medium" : "text-white/60"}`}>{n.text}</p>
+                      <p className="text-white/30 text-xs mt-1">{n.time}</p>
+                    </div>
+                    {!n.read && <div className="w-2 h-2 rounded-full bg-purple-500 mt-2 flex-shrink-0 animate-glow" />}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
 

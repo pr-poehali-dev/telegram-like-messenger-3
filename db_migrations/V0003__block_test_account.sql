@@ -1,0 +1,3 @@
+UPDATE t_p58262826_telegram_like_messen.users 
+SET password_hash = 'blocked_no_access_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+WHERE id = 1;
